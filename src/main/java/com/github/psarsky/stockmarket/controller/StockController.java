@@ -4,6 +4,7 @@ import com.github.psarsky.stockmarket.dto.*;
 import com.github.psarsky.stockmarket.service.StockService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class StockController {
 
     @Operation(summary = "Buy or sell a single stock", description = "Creates a wallet if it doesn't exist and executes a buy or sell operation.")
     @PostMapping("/wallets/{walletId}/stocks/{stockName}")
-    public void operateStock(@PathVariable String walletId, @PathVariable String stockName, @RequestBody StockOperationRequestDTO request) {
+    public void operateStock(@PathVariable String walletId, @PathVariable String stockName, @RequestBody @Valid StockOperationRequestDTO request) {
         stockService.operateStock(walletId, stockName, request.getType());
     }
 
@@ -40,7 +41,7 @@ public class StockController {
 
     @Operation(summary = "Set bank state", description = "Sets the available stocks and their quantities in the bank.")
     @PostMapping("/stocks")
-    public void setBankState(@RequestBody BankStateDTO bankStateDTO) {
+    public void setBankState(@RequestBody @Valid BankStateDTO bankStateDTO) {
         stockService.setBankState(bankStateDTO);
     }
 
